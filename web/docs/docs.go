@@ -45,6 +45,12 @@ var doc = `{
                                 "$ref": "#/definitions/main.Student"
                             }
                         }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/main.Error"
+                        }
                     }
                 }
             },
@@ -70,10 +76,22 @@ var doc = `{
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK",
+                    "201": {
+                        "description": "Created",
                         "schema": {
                             "$ref": "#/definitions/main.Student"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/main.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/main.Error"
                         }
                     }
                 }
@@ -92,7 +110,7 @@ var doc = `{
                 "operationId": "get-student",
                 "parameters": [
                     {
-                        "type": "integer",
+                        "type": "string",
                         "description": "Student ID",
                         "name": "student_id",
                         "in": "path",
@@ -104,6 +122,18 @@ var doc = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/main.Student"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/main.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/main.Error"
                         }
                     }
                 }
@@ -120,11 +150,20 @@ var doc = `{
                 "operationId": "edit-student",
                 "parameters": [
                     {
-                        "type": "integer",
+                        "type": "string",
                         "description": "Student ID",
                         "name": "student_id",
                         "in": "path",
                         "required": true
+                    },
+                    {
+                        "description": "Edit Student",
+                        "name": "Student",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/main.Student"
+                        }
                     }
                 ],
                 "responses": {
@@ -133,12 +172,32 @@ var doc = `{
                         "schema": {
                             "$ref": "#/definitions/main.Student"
                         }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/main.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/main.Error"
+                        }
                     }
                 }
             }
         }
     },
     "definitions": {
+        "main.Error": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
         "main.Student": {
             "type": "object",
             "properties": {

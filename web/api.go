@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 
 	"github.com/gin-gonic/gin"
 )
@@ -17,12 +18,14 @@ type Api struct {
 // @Accept  application/json
 // @Produce  json
 // @Param Student body Student true "Create Student"
-// @Success 200 {object} Student
+// @Success 201 {object} Student
+// @Success 500 {object} Error
+// @Success 400 {object} Error
 // @Router /students [post]
 func (a *Api) CreateStudent(ctx *gin.Context) {
 	var student Student
 	if err := json.NewDecoder(ctx.Request.Body).Decode(&student); err != nil {
-		ctx.JSON(400, NewError(err))
+		ctx.JSON(400, NewError(fmt.Errorf("Failed to decode the body %s", err.Error())))
 		return
 	}
 
@@ -40,11 +43,20 @@ func (a *Api) CreateStudent(ctx *gin.Context) {
 // @ID get-student
 // @Accept  json
 // @Produce  json
-// @Param student_id path int true "Student ID"
+// @Param student_id path string true "Student ID"
 // @Success 200 {object} Student
+// @Success 404 {object} Error
+// @Success 500 {object} Error
 // @Router /students/{student_id} [get]
 func (a *Api) GetStudent(ctx *gin.Context) {
-	// write your code
+	studentID := ctx.Param("student_id")
+	student, err := a.Store.GetStudent(studentID)
+	if err != nil {
+		ctx.JSON(500, NewError(err))
+		return
+	}
+
+	ctx.JSON(200, student)
 }
 
 // ListStudent list students
@@ -54,6 +66,7 @@ func (a *Api) GetStudent(ctx *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Success 200 {array} Student
+// @Success 500 {object} Error
 // @Router /students [get]
 func (a *Api) ListStudent(ctx *gin.Context) {
 
@@ -72,9 +85,25 @@ func (a *Api) ListStudent(ctx *gin.Context) {
 // @ID edit-student
 // @Accept  json
 // @Produce  json
-// @Param student_id path int true "Student ID"
+// @Param student_id path string true "Student ID"
+// @Param Student body Student true "Edit Student"
 // @Success 200 {object} Student
+// @Success 404 {object} Error
+// @Success 500 {object} Error
 // @Router /students/{student_id} [put]
 func (a *Api) EditStudent(ctx *gin.Context) {
-	// write your code
+	studentID := ctx.Param("student_id")
+	var student Student
+	if err := json.NewDecoder(ctx.Request.Body).Decode(&student); err != nil {
+		ctx.JSON(400, NewError(fmt.Errorf("Failed to decode the body %s", err.Error())))
+		return
+	}
+
+	student.ID = studentID
+	if err := a.Store.UpdateStudent(&student); err != nil {
+		ctx.JSON(500, NewError(err))
+		return
+	}
+
+	ctx.JSON(200, student)
 }
