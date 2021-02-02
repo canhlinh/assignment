@@ -1,0 +1,129 @@
+definitions:
+  main.Error:
+    properties:
+      message:
+        type: string
+    type: object
+  main.Student:
+    properties:
+      class:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+    type: object
+info:
+  contact: {}
+  license: {}
+paths:
+  /students:
+    get:
+      consumes:
+      - application/json
+      description: List students
+      operationId: list-students
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/main.Student'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/main.Error'
+      summary: List students
+    post:
+      consumes:
+      - application/json
+      description: Create a student
+      operationId: create-student
+      parameters:
+      - description: Create Student
+        in: body
+        name: Student
+        required: true
+        schema:
+          $ref: '#/definitions/main.Student'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/main.Student'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/main.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/main.Error'
+      summary: Create a student
+  /students/{student_id}:
+    get:
+      consumes:
+      - application/json
+      description: Get a student
+      operationId: get-student
+      parameters:
+      - description: Student ID
+        in: path
+        name: student_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/main.Student'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/main.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/main.Error'
+      summary: Get a student
+    put:
+      consumes:
+      - application/json
+      description: Edit a student
+      operationId: edit-student
+      parameters:
+      - description: Student ID
+        in: path
+        name: student_id
+        required: true
+        type: string
+      - description: Edit Student
+        in: body
+        name: Student
+        required: true
+        schema:
+          $ref: '#/definitions/main.Student'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/main.Student'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/main.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/main.Error'
+      summary: Edit a student
+swagger: "2.0"
