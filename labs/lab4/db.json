@@ -1,0 +1,1 @@
+{"title":"Learn Go","body":"This writes the golang string into the newly created file. If you get an error, it means you don’t have the right user permissions to write a file (no write access) or that the disk is full.\r\n\r\n"}
