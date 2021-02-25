@@ -26,14 +26,7 @@ tại, lỗi truyền dữ liệu sai formats
 
 
 
-### Cài đặt project:
-
-Tải framework:
-```
-make setup
-```
-
-Chạy web server
+### Chạy web server
 ```
 make run
 ```
