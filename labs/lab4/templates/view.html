@@ -1,0 +1,19 @@
+{{ define "content" }}
+
+<div class="row">
+    <form action="/">
+      <fieldset disabled>
+        <div class="form-group">
+          <label for="disabledTextInput">Title</label>
+          <input type="text" id="disabledTextInput" class="form-control" placeholder="{{ .Title }}">
+        </div>
+        <div class="form-group">
+          <label for="disabledTextInput">Body</label>
+          <textarea class="form-control" id="disabledTextInput" rows="3" placeholder="{{ .Body }}"></textarea>
+        </div>
+      </fieldset>
+      <button type="submit" class="btn btn-primary">Home</button>
+    </form>
+  </div>
+
+{{ end }}

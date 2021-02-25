@@ -1,0 +1,17 @@
+{{ define "content" }}
+
+<div class="row">
+    <form method="POST">
+      <div class="form-group has-validation">
+        <label for="title_editing">Title</label>
+        <input type="text" class="form-control" id="title" name="title" placeholder="{{ .Title }}">
+        {{ with .Errors.Title }}
+          <span style="color: red;">{{.}}</span>
+        {{ end }}
+      </div>
+      <button class="btn btn-primary pull-right btn-sm RbtnMargin" type="submit">Save</button>
+      <a href="/">Cancel</a>
+    </form>
+  </div>
+
+{{ end }}

@@ -1,0 +1,18 @@
+{{ define "content" }}
+
+<div class="row">
+  <form method="POST" class="needs-validation" novalidate>
+    <div class="form-group has-validation">
+      <label for="body_editing">Body</label>
+      <textarea class="form-control" id="body_editing" name="body" rows="6" value="Input here">{{ .Body }}</textarea>
+      {{ with .Errors.Body }}
+        <span style="color: red;">{{.}}</span>
+      {{ end }}
+    </div>
+    <button class="btn btn-primary pull-right btn-sm RbtnMargin" type="submit">Save</button>
+    <a href="/">Cancel</a>
+  </form>
+
+</div>
+
+{{ end }}
